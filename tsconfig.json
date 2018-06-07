@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": true,
+    "module": "es6",
+    "target": "es6",
+    "sourceMap": true,
+    "allowJs": true,
+    "noEmitOnError": true,
+    "noUnusedParameters": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}
