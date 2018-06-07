@@ -1,16 +1,23 @@
 import size from '../interfaces/size';
 import point from '../interfaces/point';
+import id from '../interfaces/id';
+import uniqueId from '../util/uniqueID';
+import NavigatorTile from '../classes/NavigatorTile';
 import { start, obstacle, outline, empty } from '../const/colors';
 
-export default class Tile {
+export default class Tile implements id {
+  id: number = uniqueId();
+  navigatorTile: NavigatorTile | null = null;
   private _isObstacle: boolean = false;
   private _isStart: boolean = false;
 
   constructor(
     public size: size,
     private position: point,
+    private _gridCoords: point,
     private context: CanvasRenderingContext2D
   ) {
+    this.navigatorTile = new NavigatorTile(this);
     this.stroke(outline);
   }
 
@@ -22,6 +29,9 @@ export default class Tile {
   }
   get canBeStart(): boolean {
     return !this.isObstacle && !this.isStart;
+  }
+  get gridCoords(): point {
+    return this._gridCoords;
   }
 
   becomeStart(): boolean {

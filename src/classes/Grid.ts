@@ -2,16 +2,16 @@ import Canvas from './Canvas';
 import Tile from './Tile';
 import size from '../interfaces/size';
 import point from '../interfaces/point';
+import row from '../interfaces/row';
 import { int } from '../util/random';
 
-type row = Tile[];
 type boundingBox = { top: number; bottom: number; left: number; right: number };
 
 export default class Grid {
   private readonly canvas: HTMLCanvasElement;
   private readonly context: CanvasRenderingContext2D;
   private startTile: Tile | null = null;
-  private rows: row[] = [];
+  private _rows: row[] = [];
 
   constructor(
     { canvas, context }: Canvas,
@@ -23,21 +23,39 @@ export default class Grid {
     this.makeGrid();
   }
 
+  get rows(): row[] {
+    return this._rows;
+  }
+
   randomTile(): Tile {
     const { width, height } = this.gridSize;
     const row = int(0, height - 1);
     const col = int(0, width - 1);
 
-    return this.rows[row][col];
+    return this._rows[row][col];
   }
 
-  findTileByCoords(point: point): Tile | null {
-    for (let r = 0; r < this.rows.length; r++) {
-      const row: row = this.rows[r];
+  findTileByCoords({ x, y }: point): Tile | null {
+    const row: row = this._rows[x];
+    if (!row) {
+      return null;
+    }
+
+    const tile: Tile = row[y];
+    if (!tile) {
+      return null;
+    }
+
+    return tile;
+  }
+
+  findTileByPixelCoords(pixelCoords: point): Tile | null {
+    for (let r = 0; r < this._rows.length; r++) {
+      const row: row = this._rows[r];
 
       for (let c = 0; c < row.length; c++) {
         const tile: Tile = row[c];
-        if (tile.containsPoint(point)) {
+        if (tile.containsPoint(pixelCoords)) {
           return tile;
         }
       }
@@ -70,14 +88,14 @@ export default class Grid {
         row.push(tile);
       }
 
-      this.rows.push(row);
+      this._rows.push(row);
     }
   }
 
-  private makeTile(positionInGrid: point): Tile {
-    const { x, y } = this.getTilePosition(positionInGrid);
+  private makeTile(gridCoords: point): Tile {
+    const { x, y } = this.getTilePosition(gridCoords);
     const { width, height } = this.tileSize;
-    return new Tile({ width, height }, { x, y }, this.context);
+    return new Tile({ width, height }, { x, y }, gridCoords, this.context);
   }
 
   private getTilePosition(positionInGrid: point): point {

@@ -7,14 +7,25 @@ export default class Click {
   }
 
   addEvent(): void {
-    this.canvas.addEventListener('click', this.onClick.bind(this));
+    this.canvas.addEventListener('click', this.onClick.bind(this), false);
+    this.canvas.addEventListener('contextmenu', this.onClick.bind(this), false);
   }
 
-  onClick(point: MouseEvent): void {
-    const clickedTile: Tile | null = this.grid.findTileByCoords(point);
+  onClick(event: MouseEvent): boolean {
+    event.preventDefault();
+    const clickedTile: Tile | null = this.grid.findTileByPixelCoords(event);
 
     if (clickedTile) {
-      this.grid.setStart(clickedTile);
+      switch (event.button) {
+        case 0:
+          this.grid.setStart(clickedTile);
+          break;
+        case 2:
+          this.grid.setStart(clickedTile);
+          break;
+      }
     }
+
+    return false;
   }
 }
