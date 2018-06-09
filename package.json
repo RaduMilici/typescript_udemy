@@ -1,0 +1,32 @@
+{
+  "name": "typescript_udemy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"lite-server\" \"npm run compile\"",
+    "compile": "webpack --config webpack.config.js",
+    "format": "prettier --single-quote --trailing-comma es5 --write $(git ls-files \"*.ts\")"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RaduMilici/typescript_udemy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RaduMilici/typescript_udemy/issues"
+  },
+  "homepage": "https://github.com/RaduMilici/typescript_udemy#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "concurrently": "^3.5.1",
+    "lite-server": "^2.3.0",
+    "prettier": "1.12.1",
+    "ts-loader": "^4.3.0",
+    "typescript": "^2.8.3",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.4"
+  }
+}

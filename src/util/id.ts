@@ -1,7 +1,7 @@
 import id from '../interfaces/id';
 
 const contains = (array: id[], { id }: id): boolean => {
-  return findIndex(array, id) === -1;
+  return findIndex(array, id) !== -1;
 };
 
 const findIndex = (array: id[], id: number): number => {

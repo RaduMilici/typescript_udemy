@@ -7,8 +7,13 @@ export default class NavigatorTile implements id {
   gVal: number; // distance from start
   hVal: number; // distance from end
   fVal: number; // gCost + hCost
+  parent: NavigatorTile;
 
-  constructor(private tile: Tile) {}
+  get tile(): Tile {
+    return this._tile;
+  }
+
+  constructor(private _tile: Tile) {}
 
   get col(): number {
     return this.tile.gridCoords.x;

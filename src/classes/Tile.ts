@@ -65,14 +65,14 @@ export default class Tile implements id {
     );
   }
 
-  private fill(color: string): void {
+  fill(color: string): void {
     this.draw(() => {
       this.context.fillStyle = color;
       this.context.fill();
     });
   }
 
-  private stroke(color: string): void {
+  stroke(color: string = 'black'): void {
     this.draw(() => {
       this.context.strokeStyle = color;
       this.context.stroke();
