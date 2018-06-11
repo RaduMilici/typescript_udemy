@@ -1,6 +1,6 @@
 import id from '../interfaces/id';
 import uniqueId from '../util/uniqueID';
-import Tile from './Tile';
+import point from '../interfaces/point';
 
 export default class NavigatorTile implements id {
   id: number = uniqueId();
@@ -8,22 +8,7 @@ export default class NavigatorTile implements id {
   hVal: number; // distance from end
   fVal: number; // gCost + hCost
   parent: NavigatorTile;
+  isObstacle: boolean = false;
 
-  get tile(): Tile {
-    return this._tile;
-  }
-
-  constructor(private _tile: Tile) {}
-
-  get col(): number {
-    return this.tile.gridCoords.x;
-  }
-
-  get row(): number {
-    return this.tile.gridCoords.y;
-  }
-
-  get isObstacle(): boolean {
-    return this.tile.isObstacle;
-  }
+  constructor(readonly position: point) {}
 }

@@ -32,8 +32,8 @@ export default class Updater {
     return false;
   }
 
-  remove({ id }: Update): boolean {
-    const index = findIndex(this.updates, id);
+  remove(update: Update): boolean {
+    const index = findIndex(this.updates, update);
 
     if (index !== -1) {
       this.updates.splice(index, 1);

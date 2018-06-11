@@ -1,11 +1,11 @@
 import id from '../interfaces/id';
 
-const contains = (array: id[], { id }: id): boolean => {
-  return findIndex(array, id) !== -1;
+const contains = (array: id[], element: id): boolean => {
+  return findIndex(array, element) !== -1;
 };
 
-const findIndex = (array: id[], id: number): number => {
-  return array.findIndex((element: id) => element.id === id);
+const findIndex = (array: id[], find: id): number => {
+  return array.findIndex((element: id) => element.id === find.id);
 };
 
 export { contains, findIndex };

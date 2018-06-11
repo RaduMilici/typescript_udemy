@@ -1,7 +1,6 @@
 import NavigatorTile from './NavigatorTile';
 import row from '../interfaces/row';
 import Grid from './Grid';
-import Tile from './Tile';
 import { contains } from '../util/id';
 import point from '../interfaces/point';
 type onExplore = (tile: NavigatorTile) => void;
@@ -12,7 +11,6 @@ export default class Navigator {
   private diagonalCost: number = 1.4;
   private neighborsCount: number = 9;
   private tiles: NavigatorTile[] = [];
-  private _path: NavigatorTile[] = [];
   private open: NavigatorTile[] = [];
   private closed: NavigatorTile[] = [];
   private current: NavigatorTile;
@@ -21,21 +19,9 @@ export default class Navigator {
     private grid: Grid,
     private begin: NavigatorTile,
     private end: NavigatorTile,
-    private readonly onExplore?: onExplore,
-    private readonly onComplete?: onComplete
-  ) {
-    if (!onExplore) {
-      this.onExplore = () => {};
-    }
-
-    if (!onComplete) {
-      this.onComplete = this.defaultOnComplete;
-    }
-  }
-
-  get path(): NavigatorTile[] {
-    return this._path;
-  }
+    private readonly onExplore: onExplore = () => {},
+    private readonly onComplete: onComplete = Navigator.defaultOnComplete
+  ) {}
 
   start(): void {
     this.addOpenTiles(this.grid);
@@ -48,7 +34,7 @@ export default class Navigator {
   private addOpenTiles(grid: Grid): void {
     grid.rows.forEach((row: row) => {
       const navigatorTiles: NavigatorTile[] = row.map(
-        (tile: Tile) => tile.navigatorTile
+        (tile: NavigatorTile) => tile
       );
       this.tiles = this.tiles.concat(navigatorTiles);
     });
@@ -57,8 +43,8 @@ export default class Navigator {
   private calculateH(): void {
     this.tiles.forEach((tile: NavigatorTile) => {
       // manhattan distance
-      const colVal: number = Math.abs(tile.col - this.end.col);
-      const rowVal: number = Math.abs(tile.row - this.end.row);
+      const colVal: number = Math.abs(tile.position.y - this.end.position.y);
+      const rowVal: number = Math.abs(tile.position.x - this.end.position.x);
       tile.hVal = colVal + rowVal;
     });
   }
@@ -67,16 +53,16 @@ export default class Navigator {
     this.current = tile;
 
     for (let i = 0; i < this.neighborsCount; i++) {
-      const x: number = tile.row + this.getRowOffset(i);
-      const y: number = tile.col + this.getColOffset(i);
+      const x: number = tile.position.x + this.getRowOffset(i);
+      const y: number = tile.position.y + Navigator.getColOffset(i);
       const coords: point = { x, y };
-      const attemptedTile: Tile | null = this.grid.findTileByCoords(coords);
+      const exploring: NavigatorTile | null = this.grid.findTile(
+        coords
+      );
 
-      if (!attemptedTile) {
+      if (!exploring) {
         continue;
       }
-
-      const exploring = attemptedTile.navigatorTile;
 
       if (exploring.isObstacle) {
         continue;
@@ -89,7 +75,7 @@ export default class Navigator {
       if (tile.id === exploring.id) {
         this.closed.push(exploring);
       } else {
-        if (!this.determineParent(tile, exploring)) {
+        if (!this.getParent(tile, exploring)) {
           continue;
         }
 
@@ -97,14 +83,14 @@ export default class Navigator {
           this.open.push(exploring);
         }
 
-        if (this.isDiagonal(tile, exploring)) {
+        if (Navigator.isDiagonal(tile, exploring)) {
           exploring.gVal = tile.gVal + this.diagonalCost;
         } else {
           exploring.gVal = tile.gVal + this.verticalCost;
         }
       }
 
-      exploring.fVal = this.calculateF(exploring);
+      exploring.fVal = Navigator.calculateF(exploring);
     }
 
     const next = this.chooseNext();
@@ -124,7 +110,7 @@ export default class Navigator {
     }
   }
 
-  private calculateF(tile: NavigatorTile): number {
+  private static calculateF(tile: NavigatorTile): number {
     return tile.gVal + tile.hVal;
   }
 
@@ -137,7 +123,7 @@ export default class Navigator {
     return this.neighborsCount + -Math.floor((32 - iteration) / 3);
   }
 
-  private getColOffset(iteration: number): number {
+  private static getColOffset(iteration: number): number {
     /*
        iteration = 0, 1, or 2: [-1][ 0][+1]
        iteration = 3, 4, or 5: [-1][ 0][+1]
@@ -146,29 +132,35 @@ export default class Navigator {
     return iteration % 3 - 1;
   }
 
-  private isDiagonal(tile: NavigatorTile, checkTile: NavigatorTile): boolean {
-    return tile.col !== checkTile.col && tile.row !== checkTile.row;
-  }
-
-  private determineParent(
+  private static isDiagonal(
     tile: NavigatorTile,
     checkTile: NavigatorTile
   ): boolean {
+    return (
+      tile.position.x !== checkTile.position.x &&
+      tile.position.y !== checkTile.position.y
+    );
+  }
+
+  private getParent(
+    tile: NavigatorTile,
+    checkTile: NavigatorTile
+  ): NavigatorTile | null {
     if (!checkTile.parent) {
       checkTile.parent = tile;
-      return true;
+      return tile;
     }
 
-    const moveCost = this.isDiagonal(tile, checkTile)
+    const moveCost = Navigator.isDiagonal(tile, checkTile)
       ? this.diagonalCost
       : this.verticalCost;
 
     if (tile.gVal + moveCost < checkTile.gVal) {
       checkTile.parent = tile;
-      return true;
+      return tile;
     }
 
-    return false;
+    return null;
   }
 
   private chooseNext(): NavigatorTile | null {
@@ -210,7 +202,7 @@ export default class Navigator {
     return path;
   }
 
-  private defaultOnComplete(path: NavigatorTile[]) {
+  private static defaultOnComplete(path: NavigatorTile[]) {
     console.log(path);
   }
 }

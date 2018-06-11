@@ -13,15 +13,15 @@ export default class Click {
 
   onClick(event: MouseEvent): boolean {
     event.preventDefault();
-    const clickedTile: Tile | null = this.grid.findTileByPixelCoords(event);
+    const clickedTile: Tile | null = null; //this.grid.findTileByPixelCoords(event);
 
     if (clickedTile) {
       switch (event.button) {
         case 0:
-          this.grid.setStart(clickedTile);
+          //this.grid.setStart(clickedTile.navigatorTile);
           break;
         case 2:
-          this.grid.setStart(clickedTile);
+          //this.grid.setStart(clickedTile.navigatorTile);
           break;
       }
     }

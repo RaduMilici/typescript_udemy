@@ -17,13 +17,14 @@ export default class Tile implements id {
     private _gridCoords: point,
     private context: CanvasRenderingContext2D
   ) {
-    this.navigatorTile = new NavigatorTile(this);
+    this.navigatorTile = new NavigatorTile(_gridCoords);
     this.stroke(outline);
   }
 
   get isObstacle(): boolean {
     return this._isObstacle;
   }
+
   get isStart(): boolean {
     return this._isStart;
   }
@@ -83,7 +84,8 @@ export default class Tile implements id {
     const { x, y } = this.position;
     const { width, height } = this.size;
     this.context.beginPath();
-    this.context.rect(x, y, width, height);
+    this.context.arc(x, y , width, 0, 2*Math.PI);
+    //this.context.rect(x, y, width, height);
     drawAction();
     this.context.closePath();
   }

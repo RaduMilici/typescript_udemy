@@ -1,5 +1,5 @@
-import Tile from '../classes/Tile';
+import NavigatorTile from '../classes/NavigatorTile';
 
-type row = Tile[];
+type row = NavigatorTile[];
 
 export default row;
