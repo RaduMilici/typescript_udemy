@@ -1,7 +1,7 @@
 import size from '../interfaces/size';
 import Tile from './Tile';
 import point from '../interfaces/point';
-import NavigatorTile from "./NavigatorTile";
+import NavigatorTile from './NavigatorTile';
 
 type row = Tile[];
 type boundingBox = { top: number; bottom: number; left: number; right: number };
@@ -38,17 +38,15 @@ export default class Canvas {
   }
 
   getTile({ x, y }: point): Tile | null {
-    const row: row = this.rows[x];
+    const row: row = this.rows[y];
+
     if (!row) {
       return null;
-    }
-
-    const tile: Tile = row[y];
-    if (!tile) {
+    } else if (row.length < x) {
       return null;
     }
 
-    return tile;
+    return row[x];
   }
 
   private setSize({ width, height }: size): void {

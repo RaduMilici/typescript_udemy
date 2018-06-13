@@ -84,8 +84,8 @@ export default class Tile implements id {
     const { x, y } = this.position;
     const { width, height } = this.size;
     this.context.beginPath();
-    this.context.arc(x, y , width, 0, 2*Math.PI);
-    //this.context.rect(x, y, width, height);
+    //this.context.arc(x, y , width, 0, 2*Math.PI);
+    this.context.rect(x, y, width, height);
     drawAction();
     this.context.closePath();
   }

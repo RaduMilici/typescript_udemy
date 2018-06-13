@@ -5,13 +5,17 @@ import Navigator from './classes/Navigator';
 import NavigatorTile from './classes/NavigatorTile';
 import size from 'interfaces/size';
 
-const canvasSize = { width: window.innerWidth, height: window.innerHeight };
+const canvasSize: size = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
 const canvas: Canvas = new Canvas('#canvas', canvasSize);
-const gridSize: size = { width: 100, height: 100 };
-const tileSize: size = { width: 7, height: 7 };
+const gridSize: size = { width: 200, height: 150 };
+const tileSize: size = { width: 5, height: 5 };
 const grid: Grid = new Grid(gridSize);
-const navBegin: NavigatorTile = grid.rows[0][0];
-const navEnd: NavigatorTile = grid.rows[gridSize.height - 1][gridSize.width - 1];
+new Click(canvas.canvas, grid);
+canvas.drawGrid(gridSize, tileSize);
+
 const onNavExplore = ({ position }: NavigatorTile) => {
   const tile = canvas.getTile(position);
   tile.fill('blue');
@@ -24,8 +28,28 @@ const onNavComplete = (path: NavigatorTile[]): void => {
     tile.stroke();
   });
 };
-const navigator = new Navigator(grid, navBegin, navEnd, onNavExplore, onNavComplete);
 
-new Click(canvas.canvas, grid);
-canvas.drawGrid(gridSize, tileSize);
-navigator.start();
+grid.obstacles.addRandom(5000);
+
+grid.obstacles.list.forEach(({ position }: NavigatorTile) => {
+  const tile = canvas.getTile(position);
+  tile.fill('black');
+  tile.stroke();
+});
+
+/*
+const navEnd: NavigatorTile = grid.rows[gridSize.height - 1][gridSize.width - 1];
+const navigator: Navigator = new Navigator(grid, navBegin, navEnd, onNavExplore, onNavComplete);*/
+
+for (let i = 0; i < 20; i++) {
+  const navBegin: NavigatorTile = grid.randomFreeTile();
+  const navEnd: NavigatorTile = grid.randomFreeTile();
+  const navigator: Navigator = new Navigator(
+    grid,
+    navBegin,
+    navEnd,
+    onNavExplore,
+    onNavComplete
+  );
+  navigator.start();
+}

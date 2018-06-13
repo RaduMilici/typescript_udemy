@@ -7,37 +7,38 @@ import Obstacles from './Obstacles';
 
 export default class Grid {
   readonly tiles: NavigatorTile[] = [];
-  private _rows: row[] = [];
+  readonly rows: row[] = [];
   public readonly obstacles: Obstacles = new Obstacles(this);
 
   constructor(private size: size) {
     this.makeGrid();
   }
 
-  get rows(): row[] {
-    return this._rows;
-  }
-
   randomTile(): NavigatorTile {
-    const { width, height } = this.size;
-    const row = int(0, height - 1);
-    const col = int(0, width - 1);
+    const x = int(0, this.size.width - 1);
+    const y = int(0, this.size.height - 1);
 
-    return this._rows[row][col];
+    return this.findTile({ x, y });
   }
 
-  findTile({ x, y }: point): NavigatorTile | null {
-    const row: row = this._rows[x];
+  randomFreeTile(): NavigatorTile | null {
+    return this.obstacles.getRandomOpen();
+  }
+
+  findTile(position: point): NavigatorTile | null {
+    return Grid.getTile(position, this.rows);
+  }
+
+  private static getTile({ x, y }: point, list: row[]): NavigatorTile | null {
+    const row: row = list[y];
+
     if (!row) {
       return null;
-    }
-
-    const tile: NavigatorTile = row[y];
-    if (!tile) {
+    } else if (row.length < x) {
       return null;
     }
 
-    return tile;
+    return row[x];
   }
 
   private makeGrid(): void {
@@ -50,7 +51,7 @@ export default class Grid {
         row.push(tile);
       }
 
-      this._rows.push(row);
+      this.rows.push(row);
     }
   }
 }
