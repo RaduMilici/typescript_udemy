@@ -1,5 +1,58 @@
-import './triangulation_classes/Triangle';
-import './triangulation_classes/Triangulation';
+// import './triangulation_classes/Triangle';
+import Canvas from './classes/Canvas';
+import Vector from './triangulation_classes/Vector';
+import Triangulation from './triangulation_classes/Triangulation';
+import { points as r_points } from './util/random';
+import size from 'interfaces/size';
+import boundingBox from './interfaces/bounding_box';
+// import { Grid, Navigator, NavigatorTile } from 'pulsar-pathfinding';
+
+const canvasSize: size = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+const canvas: Canvas = new Canvas('#canvas', canvasSize);
+const padding = 50;
+const box1: boundingBox = {
+  top: padding,
+  bottom: (canvasSize.height - padding) / 2,
+  left: padding,
+  right: (canvasSize.width - padding) / 2,
+};
+
+const box2: boundingBox = {
+  top: padding,
+  bottom: (canvasSize.height - padding) / 2,
+  left: (padding + canvasSize.width) / 2,
+  right: canvasSize.width - padding,
+};
+
+const box3: boundingBox = {
+  top: (padding + canvasSize.height) / 2,
+  bottom: (canvasSize.height - padding),
+  left: (padding + canvasSize.width) / 2,
+  right: canvasSize.width - padding,
+};
+
+const box4: boundingBox = {
+  top: (padding + canvasSize.height) / 2,
+  bottom: (canvasSize.height - padding),
+  left: padding,
+  right: (canvasSize.width - padding) / 2,
+};
+
+const randomTriangulation = (box: boundingBox): void => {
+  const points: Vector[] = r_points(1000, box);
+  const triangulation = new Triangulation(points);
+  triangulation.start();
+  canvas.draw.triangles(triangulation.triangles);
+  canvas.draw.points(points);
+};
+
+randomTriangulation(box1);
+randomTriangulation(box2);
+randomTriangulation(box3);
+randomTriangulation(box4);
 /*
 import Canvas from './classes/Canvas';
 import { Grid, Navigator, NavigatorTile } from 'pulsar-pathfinding';

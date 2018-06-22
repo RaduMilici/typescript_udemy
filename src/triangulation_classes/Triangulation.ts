@@ -5,20 +5,18 @@ import Hull from './Hull';
 import MinimumSpanningTree from './MinimumSpanningTree';
 
 export default class Triangulation {
-  readonly lines: Line[] = [];
   readonly triangles: Triangle[] = [];
   readonly MST: MinimumSpanningTree;
   readonly hull: Hull;
-  private holderTriangle: Triangle = Triangulation.makeHolderTriangle();
+  private holderTriangle: Triangle = Triangulation.MakeHolderTriangle();
 
   constructor(readonly points: Vector[]) {
     this.triangles.push(this.holderTriangle);
-    this.triangulate();
     this.hull = new Hull(this);
     this.MST = new MinimumSpanningTree(this);
   }
 
-  private triangulate(): void {
+  start(): void {
     this.points.forEach((point: Vector) => {
       const badTriangles: Triangle[] = [];
 
@@ -42,9 +40,9 @@ export default class Triangulation {
     this.cleanHolderTriangle();
   }
 
-  private static makeHolderTriangle(): Triangle {
+  private static MakeHolderTriangle(): Triangle {
     const side: number = Number.MAX_SAFE_INTEGER;
-    const a: Vector = new Vector({ x: 0, y: -side });
+    const a: Vector = new Vector({ x: side / 2, y: -side });
     const b: Vector = new Vector({ x: -side, y: side });
     const c: Vector = new Vector({ x: side, y: side });
 
@@ -52,12 +50,14 @@ export default class Triangulation {
   }
 
   private cleanHolderTriangle(): void {
-    const index = this.triangles.findIndex((triangle: Triangle) => {
-      return triangle.id === this.holderTriangle.id;
-    });
+    const { a, b, c } = this.holderTriangle;
 
-    if (index > -1) {
-      this.triangles.splice(index, 1);
+    for (let i = this.triangles.length - 1; i >= 0; i--) {
+      const triangle = this.triangles[i];
+
+      if (triangle.hasAnyPoint([a, b, c])) {
+        this.triangles.splice(i, 1);
+      }
     }
   }
 }

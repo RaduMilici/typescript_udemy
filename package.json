@@ -19,7 +19,6 @@
     "url": "https://github.com/RaduMilici/typescript_udemy/issues"
   },
   "homepage": "https://github.com/RaduMilici/typescript_udemy#readme",
-  "dependencies": {},
   "devDependencies": {
     "concurrently": "^3.5.1",
     "lite-server": "^2.3.0",
@@ -28,5 +27,8 @@
     "typescript": "^2.8.3",
     "webpack": "^4.8.3",
     "webpack-cli": "^2.1.4"
+  },
+  "dependencies": {
+    "pulsar-pathfinding": "^1.0.0"
   }
 }

@@ -98,23 +98,23 @@ export default class Vector {
     return deg * (Math.PI / 180);
   }
 
-  static FindPolyCentroid(points: Vector[]) : Vector {
+  static FindPolyCentroid(points: Vector[]): Vector {
     let v = new Vector();
 
     points.forEach((vector: Vector) => {
       v = v.add(vector);
     });
 
-    return v.scale(1 / points.length)
+    return v.scale(1 / points.length);
   }
 
   static ArrangePointsCCW(points: Vector[]): Vector[] {
     const centroid: Vector = Vector.FindPolyCentroid(points);
-    const pointsWithAngle: Vector[] =  points.map((point: Vector) => point.clone());
+    const pointsWithAngle: Vector[] = points.map((point: Vector) => point.clone());
 
     pointsWithAngle.sort((a: Vector, b: Vector) => {
-      const angleA: number = Math.atan2((a.y - centroid.y), (a.x - centroid.x));
-      const angleB: number = Math.atan2((b.y - centroid.y), (b.x - centroid.x));
+      const angleA: number = Math.atan2(a.y - centroid.y, a.x - centroid.x);
+      const angleB: number = Math.atan2(b.y - centroid.y, b.x - centroid.x);
       return angleA - angleB;
     });
 

@@ -73,6 +73,18 @@ export default class Triangle implements id {
     return matrix.determine() < 0;
   }
 
+  hasPoint(point: Vector): boolean {
+    return this.a.equals(point) || this.b.equals(point) || this.c.equals(point);
+  }
+
+  hasAnyPoint(points: Vector[]): boolean {
+    return (
+      points.filter((point: Vector) => {
+        return this.hasPoint(point);
+      }).length !== 0
+    );
+  }
+
   static LinesFromArray(triangles: Triangle[]): Line[] {
     return triangles.reduce((accumulator: Line[], triangle: Triangle) => {
       accumulator.push(...triangle.linesArray);

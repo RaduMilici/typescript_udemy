@@ -1,20 +1,23 @@
 import size from '../interfaces/size';
 import Tile from './Tile';
 import point from '../interfaces/point';
+import boundingBox from '../interfaces/bounding_box';
+import Draw from './Draw';
 
 type row = Tile[];
-type boundingBox = { top: number; bottom: number; left: number; right: number };
 
 export default class Canvas {
+  boundingBox: boundingBox;
+  readonly draw: Draw;
   private readonly _canvas: HTMLCanvasElement;
   private readonly context: CanvasRenderingContext2D;
-  private boundingBox: boundingBox;
   private rows: row[] = [];
 
   constructor(selector: string, private size: size) {
     this._canvas = document.querySelector(selector) as HTMLCanvasElement;
     this.context = this._canvas.getContext('2d');
     this.setSize(size);
+    this.draw = new Draw(this);
   }
 
   get canvas(): HTMLCanvasElement {
@@ -89,23 +92,4 @@ export default class Canvas {
       height: gridSize.height * tileSize.height,
     };
   }
-
-  /*
-
-
-  findTileByPixelCoords(pixelCoords: point): Tile | null {
-    for (let r = 0; r < this._rows.length; r++) {
-      const row: row = this._rows[r];
-
-      for (let c = 0; c < row.length; c++) {
-        const tile: Tile = row[c];
-        if (tile.containsPoint(pixelCoords)) {
-          return tile;
-        }
-      }
-    }
-
-    return null;
-  }
-   */
 }

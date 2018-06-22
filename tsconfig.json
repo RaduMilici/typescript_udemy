@@ -8,8 +8,5 @@
     "allowJs": true,
     "noEmitOnError": true,
     "noUnusedParameters": true
-  },
-  "exclude": [
-    "node_modules"
-  ]
+  }
 }

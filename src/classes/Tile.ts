@@ -3,7 +3,7 @@ import point from '../interfaces/point';
 import id from '../interfaces/id';
 import uniqueId from '../util/uniqueID';
 import { NavigatorTile } from 'pulsar-pathfinding';
-import { start, obstacle, outline, empty } from '../const/colors';
+import { start, obstacle, outline, empty } from '../const/draw';
 
 export default class Tile implements id {
   id: number = uniqueId();
