@@ -1,7 +1,6 @@
 import size from '../interfaces/size';
 import Tile from './Tile';
 import point from '../interfaces/point';
-import NavigatorTile from './NavigatorTile';
 
 type row = Tile[];
 type boundingBox = { top: number; bottom: number; left: number; right: number };

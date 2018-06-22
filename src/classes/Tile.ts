@@ -2,7 +2,7 @@ import size from '../interfaces/size';
 import point from '../interfaces/point';
 import id from '../interfaces/id';
 import uniqueId from '../util/uniqueID';
-import NavigatorTile from '../classes/NavigatorTile';
+import { NavigatorTile } from 'pulsar-pathfinding';
 import { start, obstacle, outline, empty } from '../const/colors';
 
 export default class Tile implements id {
@@ -76,6 +76,7 @@ export default class Tile implements id {
   stroke(color: string = 'black'): void {
     this.draw(() => {
       this.context.strokeStyle = color;
+      this.context.lineWidth = 1;
       this.context.stroke();
     });
   }

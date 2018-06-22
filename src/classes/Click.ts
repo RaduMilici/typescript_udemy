@@ -1,4 +1,4 @@
-import Grid from './Grid';
+import { Grid } from 'pulsar-pathfinding';
 import Tile from './Tile';
 
 export default class Click {

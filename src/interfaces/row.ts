@@ -1,4 +1,4 @@
-import NavigatorTile from '../classes/NavigatorTile';
+import { NavigatorTile } from 'pulsar-pathfinding';
 
 type row = NavigatorTile[];
 

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "concurrently \"lite-server\" \"npm run compile\"",
     "compile": "webpack --config webpack.config.js",
-    "format": "prettier --single-quote --trailing-comma es5 --write $(git ls-files \"*.ts\")"
+    "format": "prettier --print-width 120 --single-quote --trailing-comma es5 --write $(git ls-files \"*.ts\")"
   },
   "repository": {
     "type": "git",

@@ -1,19 +1,20 @@
+import './triangulation_classes/Triangle';
+import './triangulation_classes/Triangulation';
+/*
 import Canvas from './classes/Canvas';
-import Grid from './classes/Grid';
-import Click from './classes/Click';
-import Navigator from './classes/Navigator';
-import NavigatorTile from './classes/NavigatorTile';
+import { Grid, Navigator, NavigatorTile } from 'pulsar-pathfinding';
 import size from 'interfaces/size';
+
+const gridSize: size = { width: 50, height: 50 };
+const tileSide = 10;
+const tileSize: size = { width: tileSide, height: tileSide };
+const grid: Grid = new Grid(gridSize);
 
 const canvasSize: size = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
 const canvas: Canvas = new Canvas('#canvas', canvasSize);
-const gridSize: size = { width: 200, height: 150 };
-const tileSize: size = { width: 5, height: 5 };
-const grid: Grid = new Grid(gridSize);
-new Click(canvas.canvas, grid);
 canvas.drawGrid(gridSize, tileSize);
 
 const onNavExplore = ({ position }: NavigatorTile) => {
@@ -22,6 +23,7 @@ const onNavExplore = ({ position }: NavigatorTile) => {
   tile.stroke();
 };
 const onNavComplete = (path: NavigatorTile[]): void => {
+  console.log(path);
   path.forEach(({ position }: NavigatorTile) => {
     const tile = canvas.getTile(position);
     tile.fill('green');
@@ -29,27 +31,27 @@ const onNavComplete = (path: NavigatorTile[]): void => {
   });
 };
 
-grid.obstacles.addRandom(5000);
-
+grid.obstacles.addRandom(1200);
 grid.obstacles.list.forEach(({ position }: NavigatorTile) => {
   const tile = canvas.getTile(position);
   tile.fill('black');
   tile.stroke();
 });
 
-/*
-const navEnd: NavigatorTile = grid.rows[gridSize.height - 1][gridSize.width - 1];
-const navigator: Navigator = new Navigator(grid, navBegin, navEnd, onNavExplore, onNavComplete);*/
-
-for (let i = 0; i < 20; i++) {
-  const navBegin: NavigatorTile = grid.randomFreeTile();
-  const navEnd: NavigatorTile = grid.randomFreeTile();
-  const navigator: Navigator = new Navigator(
-    grid,
-    navBegin,
-    navEnd,
-    onNavExplore,
-    onNavComplete
-  );
-  navigator.start();
-}
+const makeNavigators = (count: number): void => {
+  for (let i = 0; i < count; i++) {
+    //const navBegin: NavigatorTile = grid.randomFreeTile();
+    //const navEnd: NavigatorTile = grid.randomFreeTile();
+    const navBegin: NavigatorTile = grid.findTile({x: 0, y: 0});
+    const navEnd: NavigatorTile = grid.findTile({x: 49, y: 49});
+    const navigator: Navigator = new Navigator(
+      grid,
+      navBegin,
+      navEnd,
+      onNavExplore,
+      onNavComplete
+    );
+    navigator.start();
+  }
+};
+*/
