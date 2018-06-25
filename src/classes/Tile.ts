@@ -2,7 +2,7 @@ import size from '../interfaces/size';
 import point from '../interfaces/point';
 import id from '../interfaces/id';
 import uniqueId from '../util/uniqueID';
-import { NavigatorTile } from 'pulsar-pathfinding';
+import { NavigatorTile, Vector } from 'pulsar-pathfinding';
 import { start, obstacle, outline, empty } from '../const/draw';
 
 export default class Tile implements id {
@@ -17,7 +17,7 @@ export default class Tile implements id {
     private _gridCoords: point,
     private context: CanvasRenderingContext2D
   ) {
-    this.navigatorTile = new NavigatorTile(_gridCoords);
+    this.navigatorTile = new NavigatorTile(new Vector(_gridCoords));
     this.stroke(outline);
   }
 

@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"lite-server\" \"npm run compile\"",
-    "compile": "webpack --config webpack.config.js",
-    "format": "prettier --print-width 120 --single-quote --trailing-comma es5 --write $(git ls-files \"*.ts\")"
+    "start": "concurrently \"lite-server\" \"npm run build-watch\"",
+    "build": "webpack --config webpack.config.js",
+    "build-watch": "webpack --config webpack.config.js --watch",
+    "format": "prettier --single-quote --trailing-comma es5 --write $(git ls-files \"*.ts\")"
   },
   "repository": {
     "type": "git",
@@ -20,15 +21,15 @@
   },
   "homepage": "https://github.com/RaduMilici/typescript_udemy#readme",
   "devDependencies": {
-    "concurrently": "^3.5.1",
+    "concurrently": "^3.6.0",
     "lite-server": "^2.3.0",
     "prettier": "1.12.1",
-    "ts-loader": "^4.3.0",
-    "typescript": "^2.8.3",
-    "webpack": "^4.8.3",
-    "webpack-cli": "^2.1.4"
+    "ts-loader": "^4.4.1",
+    "typescript": "^2.9.2",
+    "webpack": "^4.12.1",
+    "webpack-cli": "^2.1.5"
   },
   "dependencies": {
-    "pulsar-pathfinding": "^1.0.0"
+    "pulsar-pathfinding": "^1.1.3"
   }
 }

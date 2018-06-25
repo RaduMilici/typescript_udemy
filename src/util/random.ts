@@ -1,4 +1,4 @@
-import Vector from '../triangulation_classes/Vector';
+import { Vector } from 'pulsar-pathfinding';
 import boundingBox from '../interfaces/bounding_box';
 
 const int = (min: number, max: number): number => {

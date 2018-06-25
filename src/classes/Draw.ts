@@ -1,7 +1,5 @@
 import Canvas from './Canvas';
-import Vector from '../triangulation_classes/Vector';
-import Line from '../triangulation_classes/Line';
-import Triangle from '../triangulation_classes/Triangle';
+import { Vector, Triangle, Line } from 'pulsar-pathfinding';
 import {
   c_pointStroke,
   c_pointFill,
@@ -36,7 +34,12 @@ export default class Draw {
     this.context.closePath();
   }
 
-  points(points: Vector[], strokeColor?: string, fillColor?: string, size?: number): void {
+  points(
+    points: Vector[],
+    strokeColor?: string,
+    fillColor?: string,
+    size?: number
+  ): void {
     points.forEach((point: Vector) => {
       this.point(point, strokeColor, fillColor, size);
     });
@@ -71,7 +74,12 @@ export default class Draw {
     this.lines([lines.ab, lines.bc, lines.ca], strokeColor, size);
   }
 
-  triangles(triangles: Triangle[], strokeColor?: string, fillColor?: string, size?: number): void {
+  triangles(
+    triangles: Triangle[],
+    strokeColor?: string,
+    fillColor?: string,
+    size?: number
+  ): void {
     triangles.forEach((triangle: Triangle) => {
       this.triangle(triangle, strokeColor, fillColor, size);
     });
