@@ -10,6 +10,7 @@ import {
   c_triangleFill,
   s_triangle,
 } from '../const/draw';
+import Square from '../classes/square';
 
 export default class Draw {
   private readonly context: CanvasRenderingContext2D;
@@ -83,5 +84,15 @@ export default class Draw {
     triangles.forEach((triangle: Triangle) => {
       this.triangle(triangle, strokeColor, fillColor, size);
     });
+  }
+
+  square({ a, b, c, d }: Square): void {
+    this.context.beginPath();
+    this.context.moveTo(a.x, a.y);
+    this.context.lineTo(b.x, b.y);
+    this.context.lineTo(c.x, c.y);
+    this.context.lineTo(d.x, d.y);
+    this.context.closePath();
+    this.context.fill();
   }
 }

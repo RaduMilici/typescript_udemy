@@ -13,7 +13,7 @@ export default class Canvas {
   private readonly context: CanvasRenderingContext2D;
   private rows: row[] = [];
 
-  constructor(selector: string, private size: size) {
+  constructor(selector: string, readonly size: size) {
     this._canvas = document.querySelector(selector) as HTMLCanvasElement;
     this.context = this._canvas.getContext('2d');
     this.setSize(size);
